@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<meta charset="utf-8"/>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script type="text/javascript">
+	// 사용할 앱의 JavaScript 키를 설정해 주세요.
+	Kakao.init('앱키');
+
+	// 카카오톡 공유하기
+	function sendKakaoTalk()
+	{
+		Kakao.Link.sendTalkLink({
+			label: '공유 제목',
+			image: {
+				src: 'http://이미지경로',
+				width: '300',
+				height: '200'
+			},
+			webButton: {
+				text: '공유제목',
+				url: 'https://도메인' // 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
+			}
+		});
+	}
+
+	// 카카오스토리 공유하기
+	function shareStory() {
+		Kakao.Story.share({
+			url: '도메인',
+			text: '공유제목'
+		});
+	}
+
+	// send to SNS
+	function toSNS(sns, strTitle, strURL, strImage) {
+		//test
+		strTitle = document.getElementById("shareTitle").value;
+		strURL = document.getElementById("shareURL").value;
+		strImage = document.getElementById("shareImage").value;
+		var snsArray = new Array();
+		var strMsg = strTitle + " " + strURL;
+		var image = strImage;//"이미지경로";
+
+		snsArray['twitter'] = "http://twitter.com/home?status=" + encodeURIComponent(strTitle) + ' ' + encodeURIComponent(strURL);
+		snsArray['facebook'] = "http://www.facebook.com/share.php?u=" + encodeURIComponent(strURL);
+		snsArray['pinterest'] = "http://www.pinterest.com/pin/create/button/?url=" + encodeURIComponent(strURL) + "&media=" + image + "&description=" + encodeURIComponent(strTitle);
+		snsArray['band'] = "http://band.us/plugin/share?body=" + encodeURIComponent(strTitle) + "  " + encodeURIComponent(strURL) + "&route=" + encodeURIComponent(strURL);
+		snsArray['blog'] = "http://blog.naver.com/openapi/share?url=" + encodeURIComponent(strURL) + "&title=" + encodeURIComponent(strTitle);
+		snsArray['line'] = "http://line.me/R/msg/text/?" + encodeURIComponent(strTitle) + " " + encodeURIComponent(strURL);
+		snsArray['pholar'] = "http://www.pholar.co/spi/rephol?url=" + encodeURIComponent(strURL) + "&title=" + encodeURIComponent(strTitle);
+		snsArray['google'] = "https://plus.google.com/share?url=" + encodeURIComponent(strURL) + "&t=" + encodeURIComponent(strTitle);
+		window.open(snsArray[sns]);
+	}
+
+	function copy_clip(url) {
+		//test
+		url = document.getElementById("shareURL").value;
+		var IE = (document.all) ? true : false;
+		if (IE) {
+			window.clipboardData.setData("Text", url);
+			alert("이 글의 단축url이 클립보드에 복사되었습니다.");
+		} else {
+			temp = prompt("이 글의 단축url입니다. Ctrl+C를 눌러 클립보드로 복사하세요", url);
+		}
+	}
+	</script>
+</head>
+<body style="background-color:#f0f0f0;">
+	<div class="sns_wrap">
+	<p>SNS 공유하기</p>
+	<ul>
+		<li>
+			<a href="javascript:toSNS('facebook','공유제목!','http://http://단축URL')" title="페이스북으로 가져가기">
+				<img src="img/facebook.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('twitter','공유제목!','http://http://단축URL')" title="트위터로 가져가기">
+				<img src="img/twitter.jpeg" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('line','공유제목!','http://http://단축URL')" title="라인으로 가져가기">
+				<img src="img/line.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:sendKakaoTalk();" title="카카오톡으로 가져가기">
+				<img src="img/kakao.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:shareStory();" title="카카오스토리로 가져가기">
+				<img src="img/story.png" width="30px">
+			</a>
+		</li>
+	</ul>
+	<ul>
+		<li>
+			<a href="javascript:toSNS('pholar','공유제목!','http://단축URL')" title="폴라로 가져가기">
+				<img src="img/pholar.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('pinterest','공유제목!','http://단축URL')" title="핀터레스트로 가져가기">
+				<img src="img/pinterest.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('band','공유제목!','http://단축URL')" title="밴드로 가져가기">
+				<img src="img/band.jpeg" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('google','공유제목!','http://http://단축URL')" title="구글플러스로 가져가기">
+				<img src="img/google.png" width="30px">
+			</a>
+<!-- 		</li>
+		<li> -->
+			<a href="javascript:toSNS('blog','공유제목!','http://http://단축URL')" title="네이버블로그로 가져가기">
+				<img src="img/blog.png" width="30px">
+			</a>
+		</li>
+	</ul>
+	<ul>
+		<li>
+			share URL : <input id="shareURL" type="text" value="http://m.samplepixmotion13.godomall.com/goods/goods_view.php?goodsNo=1000000048">
+			share Title : <input id="shareTitle" type="text" value="필스모션">
+			share Image : <input id="shareImage" type="text" value="http://m.samplepixmotion13.godomall.com/data/goods/17/08/34/1000000048/1000000048_detail_057.jpg">
+			<a href="javascript:copy_clip('http://도메인')">
+				<img src="img/sns_btn.png" class="sns_btn" width="80px">
+			</a>
+		</li>
+	</ul>
+	</div>
+</body>
+</html>
