@@ -3,34 +3,69 @@
 <head>
 	<meta http-equiv="Access-Control-Allow-Origin" content="*">
 	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript">
-	// 사용할 앱의 JavaScript 키를 설정해 주세요.
-	Kakao.init('앱키');
 
+	// 사용할 앱의 JavaScript 키를 설정해 주세요.
+	Kakao.init('1ae62f9638ef73da63f5c8d437a7e5f8');
 	// 카카오톡 공유하기
 	function sendKakaoTalk()
 	{
-		Kakao.Link.sendTalkLink({
-			label: '공유 제목',
-			image: {
-				src: 'http://이미지경로',
-				width: '300',
-				height: '200'
+		strTitle = document.getElementById("shareTitle").value;
+		strURL = document.getElementById("shareURL").value;
+		strImage = document.getElementById("shareImage").value;
+		Kakao.Link.sendDefault({
+			objectType: 'feed',
+			content: {
+			  title: strTitle,
+			  description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
+			  imageUrl: strImage,
+			  link: {
+			    mobileWebUrl: strURL,
+			    webUrl: strURL,
+			  }
 			},
-			webButton: {
-				text: '공유제목',
-				url: 'https://도메인' // 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
-			}
-		});
+			social: {
+			  likeCount: 286,
+			  commentCount: 45,
+			  sharedCount: 845
+			},
+			buttons: [
+			  {
+			    title: '웹으로 보기',
+			    link: {
+			      mobileWebUrl: strURL,
+			      webUrl: strURL
+			    }
+			  },
+			  {
+			    title: '앱으로 보기',
+			    link: {
+			      mobileWebUrl: strURL,
+			      webUrl: strURL
+			    }
+			  }
+			]
+		      });
 	}
 
 	// 카카오스토리 공유하기
 	function shareStory() {
-		Kakao.Story.share({
-			url: '도메인',
-			text: '공유제목'
+		strTitle = document.getElementById("shareTitle").value;
+		strURL = document.getElementById("shareURL").value;
+console.log(strTitle);
+console.log(strURL);
+
+		//<![CDATA[
+		// 스토리 공유 버튼을 생성합니다.
+		Kakao.Story.createShareButton({
+			container: '#kakaostory-share-button',
+			url: 'https://dev.kakao.com',
+			text: '카카오 개발자 사이트로 놀러오세요! #개발자 #카카오 :)'
 		});
+		//]]>
+
 	}
 
 	// send to SNS
@@ -126,11 +161,11 @@
 	</ul>
 	<ul>
 		<li>
-			share URL : <input id="shareURL" type="text" value="http://m.samplepixmotion13.godomall.com/goods/goods_view.php?goodsNo=1000000048">
-			share Title : <input id="shareTitle" type="text" value="필스모션">
-			share Image : <input id="shareImage" type="text" value="http://m.samplepixmotion13.godomall.com/data/goods/17/08/34/1000000048/1000000048_detail_057.jpg">
-			<a href="javascript:copy_clip('http://도메인')">
-				<img src="img/sns_btn.png" class="sns_btn" width="80px">
+			<p>share URL : <input id="shareURL" type="text" value="http://m.samplepixmotion13.godomall.com/goods/goods_view.php?goodsNo=1000000048">
+			<p>share Title : <input id="shareTitle" type="text" value="pixmotion13">
+			<p>share Image : <input id="shareImage" type="text" value="http://m.samplepixmotion13.godomall.com/data/goods/17/08/34/1000000048/1000000048_detail_057.jpg">
+			<p><a href="javascript:copy_clip('http://도메인')">
+				<img src="img/sns_btn.png" class="sns_btn" width="180px">
 			</a>
 		</li>
 	</ul>
